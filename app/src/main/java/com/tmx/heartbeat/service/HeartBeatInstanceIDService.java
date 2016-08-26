@@ -8,9 +8,9 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 /**
  * Created by sarunyu.sak on 25 Aug 2016.
  */
-public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
+public class HeartBeatInstanceIDService extends FirebaseInstanceIdService {
 
-    private final String TAG = MyFirebaseInstanceIDService.class.getName();
+    private final String TAG = HeartBeatInstanceIDService.class.getName();
     /**
      * Called if InstanceID token is updated. This may occur if the security of
      * the previous token had been compromised. Note that this is called when the InstanceID token

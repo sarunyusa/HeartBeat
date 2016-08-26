@@ -16,13 +16,13 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.MyFirebaseMessagingService">
+        <service android:name=".service.HeartBeatMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service android:name=".service.MyFirebaseInstanceIDService">
+        <service android:name=".service.HeartBeatInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
