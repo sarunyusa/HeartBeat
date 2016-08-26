@@ -11,15 +11,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.tmx.heartbeat.data.ServerList;
-import com.tmx.heartbeat.dto.ServerDTO;
+import com.tmx.heartbeat.data.HeartBeatDB;
+import com.tmx.heartbeat.dto.HeartBeatDTO;
 import com.tmx.heartbeat.service.HeartBeatMessagingService;
 
-public class MainActivity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity {
 
-    private final String TAG = MainActivity.class.getName();
+    private final String TAG = TestActivity.class.getName();
 
     private TextView tvTemp;
     private TextView tvStatus;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnGetStatus;
     private Button btnChangeStatus;
 
-    private ServerList serverList = ServerList.getInstance();
+    private HeartBeatDB serverList = HeartBeatDB.getInstance();
 
     private BroadcastReceiver heartbeatReceiver = new BroadcastReceiver() {
         @Override
@@ -88,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI(){
-        //TODO  update UI here
         getStatus();
     }
 
@@ -99,28 +99,30 @@ public class MainActivity extends AppCompatActivity {
     private void getStatus(){
         if(serverList == null) return;
         Cursor cursor = serverList.selectServer(etURL.getText().toString());
-        if(cursor != null){
-            cursor.moveToFirst();
-            cursor.moveToNext();
-            tvStatus.setText(cursor.getString(1));
+        if(cursor != null && cursor.getCount() > 0){
+            if(cursor.moveToNext()) {
+                tvStatus.setText(cursor.getString(4));
+            }else{
+                Toast.makeText(this,"not found",Toast.LENGTH_LONG).show();
+            }
         }
-
+        if(cursor != null) cursor.close();
     }
 
     private void changeStatus(){
 
-        if(serverList == null) return;
-
-        ServerDTO dto = new ServerDTO();
-
-        if(tvStatus.getText().equals("0")){
-            dto.setStatus("1");
-        }else{
-            dto.setStatus("0");
-        }
-
-        serverList.updateServer(dto,etURL.getText().toString());
-        getStatus();
+//        if(serverList == null) return;
+//
+//        HeartBeatDTO dto = new HeartBeatDTO();
+//
+//        if(tvStatus.getText().equals("0")){
+//            dto.setStatus("1");
+//        }else{
+//            dto.setStatus("0");
+//        }
+//
+//        serverList.updateServer(dto,etURL.getText().toString());
+//        getStatus();
     }
 
     @Override
