@@ -1,6 +1,9 @@
 package com.tmx.heartbeat.dto;
 
-public class HeartBeatDTO {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class HeartBeatDTO implements Parcelable {
 
     private String name;
     private String command;
@@ -8,6 +11,29 @@ public class HeartBeatDTO {
     private String port;
     private Boolean status;
     private String lastUpdatedDate;
+
+    public HeartBeatDTO(){}
+
+    protected HeartBeatDTO(Parcel in) {
+        name = in.readString();
+        command = in.readString();
+        server = in.readString();
+        port = in.readString();
+        status = Boolean.valueOf(in.readString());
+        lastUpdatedDate = in.readString();
+    }
+
+    public static final Creator<HeartBeatDTO> CREATOR = new Creator<HeartBeatDTO>() {
+        @Override
+        public HeartBeatDTO createFromParcel(Parcel in) {
+            return new HeartBeatDTO(in);
+        }
+
+        @Override
+        public HeartBeatDTO[] newArray(int size) {
+            return new HeartBeatDTO[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -55,5 +81,20 @@ public class HeartBeatDTO {
 
     public void setLastUpdatedDate(String lastUpdatedDate) {
         this.lastUpdatedDate = lastUpdatedDate;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(command);
+        dest.writeString(server);
+        dest.writeString(port);
+        dest.writeString(status.toString());
+        dest.writeString(lastUpdatedDate);
     }
 }

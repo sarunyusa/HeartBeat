@@ -28,21 +28,22 @@ public class HeartBeatMessagingService extends FirebaseMessagingService {
             MessageDTO dto = gson.fromJson(remoteMessage.getData().toString(),MessageDTO.class);
             HeartBeatDB serverlist = HeartBeatDB.getInstance();
 
-            HeartBeatDTO updateDto = new HeartBeatDTO();
-            updateDto.setName(dto.getName());
-            updateDto.setCommand(dto.getCommand());
-            updateDto.setServer(dto.getServer());
-            updateDto.setPort(dto.getPort());
-            updateDto.setStatus(dto.getIsActiveStatus());
-            updateDto.setLastUpdatedDate(dto.getLastUpdateData());
+            HeartBeatDTO heartBeatDTO = new HeartBeatDTO();
+            heartBeatDTO.setName(dto.getName());
+            heartBeatDTO.setCommand(dto.getCommand());
+            heartBeatDTO.setServer(dto.getServer());
+            heartBeatDTO.setPort(dto.getPort());
+            heartBeatDTO.setStatus(dto.getIsActiveStatus());
+            heartBeatDTO.setLastUpdatedDate(dto.getLastUpdateData());
 
             if(!serverlist.isJobExists(dto.getName())){
-                serverlist.insertServer(updateDto);
+                serverlist.insertServer(heartBeatDTO);
             }else{
-                serverlist.updateServer(updateDto,dto.getName());
+                serverlist.updateServer(heartBeatDTO,dto.getName());
             }
 
             Intent intent = new Intent(INTENT_FILTER);
+            intent.putExtra("heartbeat",heartBeatDTO);
             sendBroadcast(intent);
         }
 
