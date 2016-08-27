@@ -65,6 +65,8 @@ public abstract class HeartBeatAbstractActivity extends AppCompatActivity {
         heartBeatContainer.setJob(job);
         heartBeatContainer.setHeartBeatListener(heartBeatListener);
         heartBeatContainerList.add(heartBeatContainer);
+
+
     }
 
     @Override
